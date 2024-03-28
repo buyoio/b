@@ -96,15 +96,15 @@ func (o *CmdBinaryOptions) AddFlags(cmd *cobra.Command) {
 	all := "Binaries installed and defined in b.yaml"
 	if o.NoConfig {
 		all = "All binaries"
+	} else {
+		cmd.Flags().BoolVar(&o.available, "list", false, "List all available binaries")
 	}
 	cmd.Flags().BoolVarP(&o.all, "all", "a", false, all)
 	for _, b := range o.Binaries {
 		cmd.Flags().BoolVar(o.ensure[b], b.Name, false, b.Name+" binary")
 	}
-
 	cmd.Flags().BoolVarP(&o.force, "upgrade", "u", false, "Upgrade if already installed")
 	cmd.Flags().BoolVarP(&o.install, "install", "i", false, "Install if not installed")
-	cmd.Flags().BoolVar(&o.available, "list", false, "List all available binaries")
 	cmd.Flags().BoolVarP(&o.check, "check", "c", false, "Check if binary is up to date")
 }
 
