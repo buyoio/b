@@ -113,8 +113,7 @@ func (b *Binary) DownloadBinary() error {
 		return err
 	}
 	path := b.BinaryPath()
-	ex, err := os.Executable()
-	if err != nil || ex != path {
+	if ex, err := os.Executable(); err != nil || ex != path {
 		return b.downloadBinary()
 	}
 	// Self update
@@ -128,7 +127,7 @@ func (b *Binary) DownloadBinary() error {
 	err = b.downloadBinary()
 	if err != nil {
 		// Rollback
-		os.Rename(old, path)
+		_ = os.Rename(old, path)
 	}
 	return err
 }
